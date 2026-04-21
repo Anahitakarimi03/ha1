@@ -105,6 +105,23 @@ class CalculatorTest {
     }
 
 
+    @Test
+    @DisplayName("should add operand again every time equals is pressed")
+    void testMultipleBinary(){
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(3);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(5);
+        calc.pressEqualsKey();
+        calc.pressEqualsKey();
+
+        String expected = "13";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual);
+
+
+    }
+
 }
 
 
