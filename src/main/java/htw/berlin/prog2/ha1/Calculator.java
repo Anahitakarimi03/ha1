@@ -14,6 +14,15 @@ public class Calculator {
 
     private String latestOperation = "";
 
+    private double lastOperand;
+
+    private boolean equalsWasPressed = false;
+
+   // private double firstValue;
+   // private String firstOperation = "";
+
+
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -34,8 +43,8 @@ public class Calculator {
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
-    }
 
+    }
     /**
      * Empfängt den Befehl der C- bzw. CE-Taste (Clear bzw. Clear Entry).
      * Einmaliges Drücken der Taste löscht die zuvor eingegebenen Ziffern auf dem Bildschirm
@@ -60,8 +69,18 @@ public class Calculator {
      * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
+        equalsWasPressed = false;
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+
+        /**
+         *
+         *if((operation.equals("x") || operation.equals("/")) &&
+         *      (latestOperation.equals("+") || latestOperation.equals("-"))) {
+         * firstValue = latestValue;
+         *firstOperation = latestOperation;
+        *}
+         */
     }
 
     /**
@@ -118,13 +137,22 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+        double currentValue = Double.parseDouble(screen);
+        if(equalsWasPressed){
+            currentValue = lastOperand;
+        }
+
+        lastOperand = currentValue;
+        equalsWasPressed = true;
+
         var result = switch(latestOperation) {
-            case "+" -> latestValue + Double.parseDouble(screen);
-            case "-" -> latestValue - Double.parseDouble(screen);
-            case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+            case "+" -> latestValue + currentValue;
+            case "-" -> latestValue - currentValue;
+            case "x" -> latestValue * currentValue;
+            case "/" -> latestValue / currentValue;
             default -> throw new IllegalArgumentException();
         };
+        latestValue = result;
         screen = Double.toString(result);
         if(screen.equals("Infinity")) screen = "Error";
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
