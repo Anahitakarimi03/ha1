@@ -121,6 +121,39 @@ class CalculatorTest {
 
 
     }
+    /** @Test
+     * @DisplayName("Should do the order of operations correctly: first multiply then add")
+     * void testOperationOrder(){
+     *   Calculator calc = new Calculator();
+     *  calc.pressDigitKey(1);
+     *  calc.pressBinaryOperationKey("+");
+     *  calc.pressDigitKey(3);
+     *  calc.pressBinaryOperationKey("x");
+     *  calc.pressDigitKey(4);
+     * calc.pressEqualsKey();
+     *
+     *    String expected = "13";
+     *    String actual = calc.readScreen();
+     *    assertEquals(expected, actual);
+     *
+     *   }
+     */
+
+    //von Diana Kraus :)
+    @Test
+    @DisplayName("should do the operation correctly when we start with a negative number")
+    void testNegativeStart(){
+        Calculator calc = new Calculator();
+        calc.pressNegativeKey();
+        calc.pressDigitKey(2);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(4);
+        calc.pressEqualsKey();
+
+        String expected = "-6";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual);
+    }
 
 }
 
